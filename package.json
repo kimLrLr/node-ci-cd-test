@@ -1,0 +1,29 @@
+{
+  "name": "ci-cd-test",
+  "version": "1.0.0",
+  "description": "ci-cd-test",
+  "main": "index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimLrLr/node-ci-cd-test.git"
+  },
+  "author": "kimLrLr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kimLrLr/node-ci-cd-test/issues"
+  },
+  "homepage": "https://github.com/kimLrLr/node-ci-cd-test#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "globals": "^15.9.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.3"
+  }
+}
