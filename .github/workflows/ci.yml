@@ -46,7 +46,7 @@ jobs:
             whoami
             git pull origin master
 
-      # - name: Test SSH Connection
+      # - name: Test SSH Connection1
       #   env:
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       #     SERVER_IP: ${{ secrets.SERVER_IP }}
