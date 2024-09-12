@@ -35,17 +35,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_IP }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            whoami
-            git pull origin master
-
       # - name: Test SSH Connection1
       #   env:
       #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -57,11 +46,11 @@ jobs:
       #     ssh -i private_key.pem -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo SSH connection successful"
       #     rm private_key.pem
 
-      # - name: Setup SSH
-      #   uses: webfactory/ssh-agent@v0.9.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: Deploy to server
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no kimlrlr@10.0.2.15 'cd /home/kimlrlr/node-ci-cd-test && git pull origin main && ./deploy_script.sh'
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no kimlrlr@172.16.10.95 'cd /home/kimlrlr/node-ci-cd-test && git pull origin main && ./deploy_script.sh'
