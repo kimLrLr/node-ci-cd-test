@@ -35,13 +35,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Test SSH Connection
+      - name: Test SSH Connection1
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          ssh -i $SSH_PRIVATE_KEY -p 9922 $SERVER_USER@$SERVER_IP "echo SSH connection successful"
+          echo "$SSH_PRIVATE_KEY" > key
+          chmod 600 key
+          ssh -i key -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "echo SSH connection successful"
+          rm key
 
       # - name: Setup SSH
       #   uses: webfactory/ssh-agent@v0.9.0
