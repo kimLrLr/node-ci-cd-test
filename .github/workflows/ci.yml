@@ -44,33 +44,4 @@ jobs:
 
       - name: Run commands on self-hosted runner
         run: |
-          whoami
-          pwd
-          cd /home/kimlrlr/node-ci-cd-test && git pull
-
-      # - name: Setup SSH key
-
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     whoami
-      #     pwd
-
-      # - name: Add server to known_hosts
-      #   run: |
-      #     ssh-keyscan -H -p ${{ secrets.PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      # - name: SSH to Ubuntu Server Update
-      #   run: |
-      #     ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'cd /home/kimlrlr/node-ci-cd-test && git pull'
-      #     ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -p ${{ secrets.PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'cd /home/kimlrlr && mkdir hello'
-
-      # - name: Setup SSH
-      #   uses: webfactory/ssh-agent@v0.9.0
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      # - name: Deploy to server
-      #   run: |
-      #     ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} 'cd /home/kimlrlr/node-ci-cd-test && git pull origin main && ./deploy_script.sh'
+          cd /home/kimlrlr/node-ci-cd-test && git pull origin main
