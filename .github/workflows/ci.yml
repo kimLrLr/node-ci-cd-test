@@ -37,6 +37,8 @@ jobs:
 
       - name: Run commands on self-hosted runner
         run: |
+          whoami
+          pwd
           cd /home/kimlrlr/CI-CD-test && git pull
 
       # - name: Setup SSH key
