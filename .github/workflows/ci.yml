@@ -32,6 +32,13 @@ jobs:
     needs: build
 
     steps:
+      - name: Setup SSH for GitHub access
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
       - name: Checkout code
         uses: actions/checkout@v2
 
