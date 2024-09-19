@@ -39,7 +39,7 @@ jobs:
         run: |
           whoami
           pwd
-          cd /home/kimlrlr/CI-CD-test && git pull
+          cd /home/kimlrlr/node-ci-cd-test && git pull
 
       # - name: Setup SSH key
 
