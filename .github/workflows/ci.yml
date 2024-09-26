@@ -27,21 +27,21 @@ jobs:
       - run: npm run lint
       - run: npm test
 
-  deploy:
-    runs-on: self-hosted
-    needs: build
+  # deploy:
+  #   runs-on: self-hosted
+  #   needs: build
 
-    steps:
-      # - name: Setup SSH for GitHub access
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+  #   steps:
+  #     # - name: Setup SSH for GitHub access
+  #     #   run: |
+  #     #     mkdir -p ~/.ssh
+  #     #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+  #     #     chmod 600 ~/.ssh/id_rsa
+  #     #     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Run commands on self-hosted runner
-        run: |
-          cd /home/kimlrlr/node-ci-cd-test && git pull origin main && npm install
+  #     - name: Run commands on self-hosted runner
+  #       run: |
+  #         cd /home/kimlrlr/node-ci-cd-test && git pull origin main && npm install
