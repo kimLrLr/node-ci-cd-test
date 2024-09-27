@@ -1,3 +1,3 @@
 cd /home/ubuntu/node-app
-npm install
-nohup npm start
+/usr/bin/npm install
+nohup /usr/bin/npm start &
