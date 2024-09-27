@@ -1,4 +1,4 @@
-name: Node.js CI/CD with S3 and CodeDeploy
+name: Node.js CI/CD with S3와 CodeDeploy
 
 on:
   push:
@@ -25,29 +25,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Node.js 설정 및 의존성 설치
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - run: npm ci
-      - run: npm run build --if-present
 
-      - name: Check if build directory exists
+      - name: lint 및 테스트
         run: |
-          if [ -d "./build" ]; then
-            echo "Build directory exists."
-          else
-            echo "Build directory does not exist! Please check the build step."
-            exit 1
-          fi
+          npm run lint
+          npm test
 
-      - run: npm run lint
-      - run: npm test
-
-      - name: Upload to S3
+      - name: S3에 업로드
         run: |
-          zip -r app.zip ./dist
+          zip -r app.zip .
           aws s3 cp app.zip s3://kimlrlr-bucket/releases/app.zip
 
       - name: CodeDeploy를 통해 EC2로 배포
