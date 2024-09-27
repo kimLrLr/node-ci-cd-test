@@ -47,7 +47,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          zip -r app.zip ./build
+          zip -r app.zip ./dist
           aws s3 cp app.zip s3://kimlrlr-bucket/releases/app.zip
 
       - name: CodeDeploy를 통해 EC2로 배포
