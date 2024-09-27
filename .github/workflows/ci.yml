@@ -32,6 +32,16 @@ jobs:
 
       - run: npm ci
       - run: npm run build --if-present
+
+      - name: Check if build directory exists
+        run: |
+          if [ -d "./build" ]; then
+            echo "Build directory exists."
+          else
+            echo "Build directory does not exist! Please check the build step."
+            exit 1
+          fi
+
       - run: npm run lint
       - run: npm test
 
@@ -40,7 +50,7 @@ jobs:
           zip -r app.zip ./build
           aws s3 cp app.zip s3://kimlrlr-bucket/releases/app.zip
 
-      - name: Deploy to EC2 via CodeDeploy
+      - name: CodeDeploy를 통해 EC2로 배포
         run: |
           aws deploy create-deployment \
           --application-name 'kimlrlr-codedeploy' \
