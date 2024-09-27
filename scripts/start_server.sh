@@ -1,3 +1,3 @@
-cd /home/ec2-user/node-app
+cd /home/ubuntu/node-app
 npm install
-nohup npm start &
+nohup npm start
