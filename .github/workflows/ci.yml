@@ -32,6 +32,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run build --if-present
+
       - name: lint 및 테스트
         run: |
           npm run lint
