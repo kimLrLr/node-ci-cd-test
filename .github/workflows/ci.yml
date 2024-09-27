@@ -1,4 +1,4 @@
-name: Node.js CI/CD
+name: Node.js CI/CD with S3 and CodeDeploy
 
 on:
   push:
@@ -7,41 +7,52 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
         node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: 코드 체크아웃
+        uses: actions/checkout@v2
+
+      - name: AWS 자격 증명 설정
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
 
       - run: npm ci
-
       - run: npm run build --if-present
+
+      - name: Check if build directory exists
+        run: |
+          if [ -d "./build" ]; then
+            echo "Build directory exists."
+          else
+            echo "Build directory does not exist! Please check the build step."
+            exit 1
+          fi
+
       - run: npm run lint
       - run: npm test
 
-  # deploy:
-  #   runs-on: self-hosted
-  #   needs: build
+      - name: Upload to S3
+        run: |
+          zip -r app.zip ./dist
+          aws s3 cp app.zip s3://kimlrlr-bucket/releases/app.zip
 
-  #   steps:
-  #     # - name: Setup SSH for GitHub access
-  #     #   run: |
-  #     #     mkdir -p ~/.ssh
-  #     #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-  #     #     chmod 600 ~/.ssh/id_rsa
-  #     #     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: Run commands on self-hosted runner
-  #       run: |
-  #         cd /home/kimlrlr/node-ci-cd-test && git pull origin main && npm install
+      - name: CodeDeploy를 통해 EC2로 배포
+        run: |
+          aws deploy create-deployment \
+          --application-name 'kimlrlr-codedeploy' \
+          --deployment-group-name 'dev' \
+          --s3-location bucket=kimlrlr-bucket,key=releases/app.zip,bundleType=zip
