@@ -6,5 +6,5 @@ app.listen(8080, '0.0.0.0', () => {
 });
 
 app.get('/', (req, res) => {
-  res.send('hello~~! this is test page!! 테스트로 수정도해봄');
+  res.send('hello~~! this is test page!!');
 });
