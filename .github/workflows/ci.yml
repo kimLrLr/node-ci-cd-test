@@ -18,6 +18,13 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
 
+      - name: AWS 자격 증명 설정
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
       - name: Node.js 설정 및 의존성 설치
         uses: actions/setup-node@v4
         with:
@@ -31,13 +38,6 @@ jobs:
         run: |
           npm run lint
           npm test
-
-      - name: AWS 자격 증명 설정
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
 
       - name: S3에 업로드
         run: |
